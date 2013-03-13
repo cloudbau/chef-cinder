@@ -81,16 +81,3 @@ template "/etc/cinder/cinder.conf" do
   )
   notifies :restart, resources(:service => "cinder-scheduler"), :delayed
 end
-
-monitoring_procmon "cinder-scheduler" do
-  service_name=platform_options["cinder_scheduler_service"]
-  process_name "cinder-scheduler"
-  script_name service_name
-end
-
-monitoring_metric "cinder-scheduler-proc" do
-  type "proc"
-  proc_name "cinder-scheduler"
-  proc_regex platform_options["cinder_scheduler_service"]
-  alarms(:failure_min => 2.0)
-end
