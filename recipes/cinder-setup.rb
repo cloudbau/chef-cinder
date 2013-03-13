@@ -18,7 +18,6 @@
 #
 
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-include_recipe "cinder::cinder-rsyslog"
 
 # Allow for using a well known db password
 if node["developer_mode"]
@@ -145,11 +144,11 @@ keystone_register "Register Cinder Volume Service" do
   service_name "cinder"
   service_type "volume"
   service_description "Cinder Volume Service"
-  action :create
+  action :create_service
 end
 
 # Register Cinder Endpoint
-keystone_endpoint "Register Volume Endpoint" do
+keystone_register "Register Volume Endpoint" do
   auth_host ks_admin_endpoint["host"]
   auth_port ks_admin_endpoint["port"]
   auth_protocol ks_admin_endpoint["scheme"]
@@ -160,11 +159,11 @@ keystone_endpoint "Register Volume Endpoint" do
   endpoint_adminurl volume_endpoint["uri"]
   endpoint_internalurl volume_endpoint["uri"]
   endpoint_publicurl volume_endpoint["uri"]
-  action :create
+  action :create_endpoint
 end
 
 # Register Service User
-keystone_user "Register Service User" do
+keystone_register "Register Service User" do
   auth_host ks_admin_endpoint["host"]
   auth_port ks_admin_endpoint["port"]
   auth_protocol ks_admin_endpoint["scheme"]
@@ -174,11 +173,11 @@ keystone_user "Register Service User" do
   user_name node["cinder"]["service_user"]
   user_pass node["cinder"]["service_pass"]
   user_enabled "true" # Not required as this is the default
-  action :create
+  action :create_user
 end
 
 ## Grant Admin role to Service User for Service Tenant ##
-keystone_role "Grant 'admin' Role to Service User for Service Tenant" do
+keystone_register "Grant 'admin' Role to Service User for Service Tenant" do
   auth_host ks_admin_endpoint["host"]
   auth_port ks_admin_endpoint["port"]
   auth_protocol ks_admin_endpoint["scheme"]
@@ -187,5 +186,5 @@ keystone_role "Grant 'admin' Role to Service User for Service Tenant" do
   tenant_name node["cinder"]["service_tenant_name"]
   user_name node["cinder"]["service_user"]
   role_name node["cinder"]["service_role"]
-  action :grant
+  action :grant_role
 end
