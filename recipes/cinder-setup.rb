@@ -136,7 +136,7 @@ file "/var/lib/cinder/cinder.sqlite" do
 end
 
 # Register Cinder Volume Service
-keystone_service "Register Cinder Volume Service" do
+keystone_register "Register Cinder Volume Service" do
   auth_host ks_admin_endpoint["host"]
   auth_port ks_admin_endpoint["port"]
   auth_protocol ks_admin_endpoint["scheme"]
