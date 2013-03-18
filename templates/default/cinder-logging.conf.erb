@@ -4,49 +4,78 @@
 <%= node["custom_template_banner"] %>
 <% end %>
 [loggers]
-keys=root
-
-[formatters]
-keys=normal,normal_with_name,debug
+keys = root, cinder
 
 [handlers]
-<% if @use_syslog == true %>
-keys=production
-<% else %>
-keys=file,devel
-<% end %>
+keys = stderr, stdout, watchedfile, syslog, null
+
+[formatters]
+keys = legacycinder, default
 
 [logger_root]
-level=<%= @log_verbosity %>
-<% if @use_syslog == true %>
-handlers=production
-<% else %>
-handlers=file
-<% end %>
+level = <%= @log_verbosity %>
+handlers = null
 
-[handler_production]
-class=handlers.SysLogHandler
-level=<%= @log_verbosity %>
-formatter=normal_with_name
-args=(('localhost', handlers.SYSLOG_UDP_PORT), handlers.SysLogHandler.<%= @log_facility %>)
+[logger_cinder]
+level = <%= @log_verbosity %>
+handlers = watchedfile
+qualname = cinder
 
-[handler_file]
-class=FileHandler
-level=<%= @log_verbosity %>
-formatter=normal_with_name
-args=('/var/log/cinder/cinder.log', 'a')
+[logger_amqplib]
+level = <%= @log_verbosity %>
+handlers = stderr
+qualname = amqplib
 
-[handler_devel]
-class=StreamHandler
-level=NOTSET
-formatter=debug
-args=(sys.stdout,)
+[logger_sqlalchemy]
+level = <%= @log_verbosity %>
+handlers = stderr
+qualname = sqlalchemy
+# "level = INFO" logs SQL queries.
+# "level = DEBUG" logs SQL queries and results.
+# "level = WARNING" logs neither.  (Recommended for production systems.)
 
-[formatter_normal]
-format=%(asctime)s %(levelname)s %(message)s
+[logger_boto]
+level = <%= @log_verbosity %>
+handlers = stderr
+qualname = boto
 
-[formatter_normal_with_name]
-format=(%(name)s): %(asctime)s %(levelname)s %(message)s
+[logger_suds]
+level = <%= @log_verbosity %>
+handlers = stderr
+qualname = suds
 
-[formatter_debug]
-format=(%(name)s): %(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s
+[logger_eventletwsgi]
+level = <%= @log_verbosity %>
+handlers = stderr
+qualname = eventlet.wsgi.server
+
+[handler_stderr]
+class = StreamHandler
+args = (sys.stderr,)
+formatter = legacycinder
+
+[handler_stdout]
+class = StreamHandler
+args = (sys.stdout,)
+formatter = legacycinder
+
+[handler_watchedfile]
+class = handlers.WatchedFileHandler
+args = ('/var/log/cinder/cinder.log',)
+formatter = legacycinder
+
+[handler_syslog]
+class = handlers.SysLogHandler
+args = ('/dev/log', handlers.SysLogHandler.LOG_USER)
+formatter = legacycinder
+
+[handler_null]
+class = cinder.openstack.common.log.NullHandler
+formatter = default
+args = ()
+
+[formatter_legacycinder]
+class = cinder.openstack.common.log.LegacyFormatter
+
+[formatter_default]
+format = %(message)s

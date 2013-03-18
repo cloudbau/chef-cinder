@@ -8,6 +8,8 @@ netapp_password = <%= @netapp_password %>
 netapp_server_hostname = <%= @netapp_server_hostname %>
 netapp_server_port = <%= @netapp_server_port %>
 netapp_storage_service = <%= @netapp_storage_service %>
+<% elsif node["cinder"]["storage"]["provider"] == "xtreemfs" %>
+volume_driver=cinder.volume.drivers.xtreemfs.XtreemfsDriver
 <% end %>
 
 log_config = /etc/cinder/logging.conf
@@ -26,4 +28,4 @@ osapi_volume_listen = <%= @cinder_api_listen_ip %>
 osapi_volume_listen_port = <%= @cinder_api_listen_port %>
 
 [keystone_authtoken]
-signing_dirname = /tmp/keystone-signing-cinder
+signing_dirname = /var/lib/cinder/keystone-signing-cinder
