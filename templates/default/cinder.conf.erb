@@ -26,6 +26,7 @@ rabbit_host = <%= @rabbit_ipaddress %>
 rabbit_port = <%= @rabbit_port %>
 osapi_volume_listen = <%= @cinder_api_listen_ip %>
 osapi_volume_listen_port = <%= @cinder_api_listen_port %>
+lock_path = /var/lib/cinder/lock
 
 [keystone_authtoken]
 signing_dirname = /var/lib/cinder/keystone-signing-cinder
