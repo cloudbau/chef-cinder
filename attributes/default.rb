@@ -30,8 +30,8 @@ default["cinder"]["services"]["api"]["path"] = "/v1/%(tenant_id)s"         # nod
 
 # Logging stuff
 default["cinder"]["syslog"]["use"] = true                                    # node_attribute
-default["cinder"]["syslog"]["facility"] = "LOG_LOCAL4"                        # node_attribute
-default["cinder"]["syslog"]["config_facility"] = "local4"                     # node_attribute
+default["cinder"]["syslog"]["facility"] = "LOG_LOCAL2"                        # node_attribute
+default["cinder"]["syslog"]["config_facility"] = "local2"                     # node_attribute
 
 # LOGGING LEVEL
 # in order of verbosity (most to least)
