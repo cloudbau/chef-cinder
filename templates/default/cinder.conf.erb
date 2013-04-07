@@ -30,3 +30,9 @@ lock_path = /var/lib/cinder/lock
 
 [keystone_authtoken]
 signing_dirname = /var/lib/cinder/keystone-signing-cinder
+
+#[LOGGING]
+<% if @use_syslog == true %>
+use_syslog=<%= @use_syslog %>
+syslog_log_facility=<%= @log_facility %>
+<% end %>

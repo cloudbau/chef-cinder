@@ -95,6 +95,8 @@ template "/etc/cinder/cinder.conf" do
   group "cinder"
   mode "0600"
   variables(
+    "use_syslog" => node["cinder"]["syslog"]["use"],
+    "log_facility" => node["cinder"]["syslog"]["facility"],
     "netapp_wsdl_url" => node["cinder"]["storage"]["netapp"]["wsdl_url"],
     "netapp_login" => node["cinder"]["storage"]["netapp"]["login"],
     "netapp_password" => node["cinder"]["storage"]["netapp"]["password"],
