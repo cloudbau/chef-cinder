@@ -33,6 +33,11 @@ default["cinder"]["syslog"]["use"] = true                                    # n
 default["cinder"]["syslog"]["facility"] = "LOG_LOCAL2"                        # node_attribute
 default["cinder"]["syslog"]["config_facility"] = "local2"                     # node_attribute
 
+
+default["cinder"]["logging.conf"]["use"] = false
+default["cinder"]["logging.conf"]["formatter"] = "cinder.openstack.common.log.LegacyFormatter"
+default["cinder"]["logging.conf"]["logfile"] = "/var/log/cinder/cinder.log"
+
 # LOGGING LEVEL
 # in order of verbosity (most to least)
 # DEBUG, INFO, WARNING, ERROR, CRITICAL

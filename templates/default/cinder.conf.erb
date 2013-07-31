@@ -12,7 +12,9 @@ netapp_storage_service = <%= @netapp_storage_service %>
 volume_driver=cinder.volume.drivers.xtreemfs.XtreemfsDriver
 <% end %>
 
+<% if node["cinder"]["logging.conf"]["use"] %>
 log_config = /etc/cinder/logging.conf
+<% end %>
 rootwrap_config = /etc/cinder/rootwrap.conf
 api_paste_confg = /etc/cinder/api-paste.ini
 iscsi_helper = tgtadm
