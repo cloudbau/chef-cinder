@@ -21,7 +21,7 @@ platform_options = node["cinder"]["platform"]
 
 platform_options["cinder_scheduler_packages"].each do |pkg|
   package pkg do
-    action :install
+    action :upgrade
     options platform_options["package_overrides"]
   end
 end
