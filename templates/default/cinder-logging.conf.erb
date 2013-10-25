@@ -54,7 +54,7 @@ args=('<%= node["cinder"]["logging.conf"]["logfile"] %>',)
 formatter = logstash
 
 [formatter_legacycinder]
-class = cinder.openstack.common.log.LegacyFormatter
+class = cinder.openstack.common.log.ContextFormatter
 
 [formatter_logstash]
 class=<%= node["cinder"]["logging.conf"]["formatter"] %>

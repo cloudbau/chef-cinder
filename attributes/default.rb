@@ -35,7 +35,7 @@ default["cinder"]["syslog"]["config_facility"] = "local2"                     # 
 
 
 default["cinder"]["logging.conf"]["use"] = false
-default["cinder"]["logging.conf"]["formatter"] = "cinder.openstack.common.log.LegacyFormatter"
+default["cinder"]["logging.conf"]["formatter"] = "cinder.openstack.common.log.ContextFormatter"
 default["cinder"]["logging.conf"]["logfile"] = "/var/log/cinder/cinder.log"
 
 # LOGGING LEVEL
