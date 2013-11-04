@@ -36,6 +36,7 @@ end
 rabbit_info = get_access_endpoint("rabbitmq-server", "rabbitmq", "queue")
 mysql_info = get_access_endpoint("mysql-master", "mysql", "db")
 cinder_api = get_bind_endpoint("cinder", "api")
+glance_api = get_bind_endpoint("glance", "api")
 
 if cinder_info = get_settings_by_role("cinder-setup", "cinder")
     Chef::Log.info("cinder::cinder-volume got cinder_info from cinder-setup role holder")
@@ -83,7 +84,9 @@ template "/etc/cinder/cinder.conf" do
     "rabbit_ipaddress" => rabbit_info["host"],
     "rabbit_port" => rabbit_info["port"],
     "cinder_api_listen_ip" => cinder_api["host"],
-    "cinder_api_listen_port" => cinder_api["port"]
+    "cinder_api_listen_port" => cinder_api["port"],
+    "glance_host" => glance_api["host"],
+    "glance_port" => glance_api["port"]
   )
   notifies :restart, resources(:service => "cinder-volume"), :delayed
 end
